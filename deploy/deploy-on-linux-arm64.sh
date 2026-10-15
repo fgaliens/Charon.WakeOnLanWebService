@@ -23,12 +23,12 @@ PUBLISH_DIR="$REPO_ROOT/publish"
 
 echo "==> Building backend (linux-arm64, self-contained)"
 rm -rf "$PUBLISH_DIR"
-dotnet publish "$REPO_ROOT/Charon.WakeOnLanWebService" \
+dotnet publish "$REPO_ROOT/backend/Charon.WakeOnLanWebService" \
   -c Release -r linux-arm64 --self-contained \
   -o "$PUBLISH_DIR/api"
 
 echo "==> Building frontend (API: http://$BE_HOST)"
-(cd "$REPO_ROOT/client" && npm ci && VITE_API_BASE_URL="http://$BE_HOST" npm run build)
+(cd "$REPO_ROOT/frontend" && npm ci && VITE_API_BASE_URL="http://$BE_HOST" npm run build)
 
 echo "==> Rendering config files"
 REMOTE_USER="$(ssh "$SSH_CON" 'id -un')"
@@ -44,7 +44,7 @@ ssh -t "$SSH_CON" "sudo mkdir -p /opt/wake-on-lan/api /var/www/wake-on-lan /var/
 
 echo "==> Copying files"
 rsync -az --delete "$PUBLISH_DIR/api/" "$SSH_CON:/opt/wake-on-lan/api/"
-rsync -az --delete "$REPO_ROOT/client/dist/" "$SSH_CON:/var/www/wake-on-lan/"
+rsync -az --delete "$REPO_ROOT/frontend/dist/" "$SSH_CON:/var/www/wake-on-lan/"
 rsync -az "$PUBLISH_DIR/config/" "$SSH_CON:/tmp/wake-on-lan-config/"
 
 echo "==> Installing service and nginx config, restarting"

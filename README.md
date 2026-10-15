@@ -4,7 +4,7 @@ A small ASP.NET Core Minimal API for managing network devices and waking them
 up remotely via Wake-on-LAN (WoL) magic packets. Devices are persisted in a
 local SQLite database, keyed by MAC address, and can be renamed, re-IP'd,
 pinged, and deleted through a REST API. A React frontend lives in
-[`client/`](client/) (see [Frontend](#frontend) below).
+[`frontend/`](frontend/) (see [Frontend](#frontend) below).
 
 ## Features
 
@@ -28,6 +28,8 @@ pinged, and deleted through a REST API. A React frontend lives in
 ## Getting started
 
 ```bash
+cd backend
+
 # restore & build
 dotnet build
 
@@ -36,9 +38,9 @@ dotnet run --project Charon.WakeOnLanWebService
 ```
 
 By default the app listens on `http://localhost:5042` (see
-[`Properties/launchSettings.json`](Charon.WakeOnLanWebService/Properties/launchSettings.json)
+[`Properties/launchSettings.json`](backend/Charon.WakeOnLanWebService/Properties/launchSettings.json)
 for the HTTPS profile). A ready-to-use set of sample requests is available in
-[`Charon.WakeOnLanTool.http`](Charon.WakeOnLanWebService/Charon.WakeOnLanTool.http)
+[`Charon.WakeOnLanWebService.http`](backend/Charon.WakeOnLanWebService/Charon.WakeOnLanWebService.http)
 (works with the HTTP Client built into Rider/Visual Studio, or the
 [REST Client](https://marketplace.visualstudio.com/items?itemName=humao.rest-client)
 extension for VS Code).
@@ -48,7 +50,7 @@ In the Development environment, the OpenAPI document is served at `/openapi/v1.j
 ## Configuration
 
 Connection string is read from `ConnectionStrings:SqliteConnection` in
-[`appsettings.json`](Charon.WakeOnLanWebService/appsettings.json) (defaults to a
+[`appsettings.json`](backend/Charon.WakeOnLanWebService/appsettings.json) (defaults to a
 local `m.db` file created next to the executable on first run).
 
 CORS origins allowed to call the API are read from `Cors:AllowedOrigins`
@@ -78,18 +80,18 @@ MAC addresses are accepted in any format understood by
 
 ## Frontend
 
-A React + TypeScript frontend (built with Vite) lives in [`client/`](client/).
-It is styled like Windows 98 — see [`client/README.md`](client/README.md)
+A React + TypeScript frontend (built with Vite) lives in [`frontend/`](frontend/).
+It is styled like Windows 98 — see [`frontend/README.md`](frontend/README.md)
 for details and how to run it alongside the backend.
 
 ```bash
-cd client
+cd frontend
 npm install
 npm run dev
 ```
 
 The dev server runs on `http://localhost:5173` and talks to the backend at
-the URL configured in `client/.env.development` (`http://localhost:5042` by
+the URL configured in `frontend/.env.development` (`http://localhost:5042` by
 default). Make sure the backend's `Cors:AllowedOrigins` includes the
 frontend's origin (already the case for the Development profile above).
 
