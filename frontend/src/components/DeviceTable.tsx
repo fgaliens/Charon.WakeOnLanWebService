@@ -45,5 +45,5 @@ function describePing(ping: PingResponse): string {
   if (ping.description === 'IpIsNotSetForThisDevice') {
     return '—'
   }
-  return ping.success ? `✅ Active (ping ${ping.roundTripTime})` : `❌ Inactive (${ping.description})`
+  return ping.success ? `✅ Active (ping ${ping.roundTripTimeMs} ms.)` : `❌ Inactive (${ping.description})`
 }

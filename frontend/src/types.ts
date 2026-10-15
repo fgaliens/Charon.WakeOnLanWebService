@@ -8,6 +8,7 @@ export interface PingResponse {
   success: boolean
   description: string
   roundTripTime: string
+  roundTripTimeMs: number
 }
 
 export interface AddDeviceRequest {
