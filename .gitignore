@@ -48,6 +48,9 @@ riderModule.iml
 .DS_Store
 Thumbs.db
 
+## Deploy build output (deploy/deploy.sh)
+/publish/
+
 ## Frontend (client/)
 client/node_modules/
 client/dist/

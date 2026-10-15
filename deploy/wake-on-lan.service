@@ -1,0 +1,17 @@
+[Unit]
+Description=Charon Wake on LAN API
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+User=__USER__
+WorkingDirectory=/opt/wake-on-lan/api
+ExecStart=/opt/wake-on-lan/api/Charon.WakeOnLanWebService
+Restart=always
+RestartSec=5
+Environment=ASPNETCORE_URLS=http://127.0.0.1:5042
+Environment="ConnectionStrings__SqliteConnection=Data Source=/var/lib/wake-on-lan/m.db"
+Environment=Cors__AllowedOrigins__0=http://__FE_HOST__
+
+[Install]
+WantedBy=multi-user.target

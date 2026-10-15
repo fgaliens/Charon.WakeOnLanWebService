@@ -93,6 +93,27 @@ the URL configured in `client/.env.development` (`http://localhost:5042` by
 default). Make sure the backend's `Cors:AllowedOrigins` includes the
 frontend's origin (already the case for the Development profile above).
 
+## Deployment (linux-arm64 device + nginx)
+
+[`deploy/deploy-on-linux-arm64.sh`](deploy/deploy-on-linux-arm64.sh) builds
+the backend (self-contained, `linux-arm64`) and the frontend, copies them to
+the device over SSH, installs a systemd service and an nginx site, and
+restarts both:
+
+```bash
+./deploy/deploy-on-linux-arm64.sh SSH_CON FE_HOST BE_HOST
+# e.g.
+./deploy/deploy-on-linux-arm64.sh user@192.168.2.10 wake-on-lan.home api.wake-on-lan.home
+```
+
+- `SSH_CON` — SSH connection to the device (`user@host`)
+- `FE_HOST` — hostname for the frontend
+- `BE_HOST` — hostname for the backend API
+
+Both hostnames must resolve to the device (A records in your DNS). The
+device needs nginx and rsync installed; the SQLite database lives in
+`/var/lib/wake-on-lan` and survives redeploys.
+
 ## Known limitations
 
 This project is in early development.
