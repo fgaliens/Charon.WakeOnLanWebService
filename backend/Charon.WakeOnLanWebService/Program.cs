@@ -44,7 +44,8 @@ devicesMapGroup.MapPost("/", async (
     CancellationToken cancellationToken) =>
 {
     if (string.IsNullOrWhiteSpace(request.MacAddress)
-        || !PhysicalAddress.TryParse(request.MacAddress, out var macAddress))
+        || !PhysicalAddress.TryParse(request.MacAddress, out var macAddress)
+        || macAddress.GetAddressBytes().Length != 6)
     {
         return Results.Problem(new ProblemDetails
         {

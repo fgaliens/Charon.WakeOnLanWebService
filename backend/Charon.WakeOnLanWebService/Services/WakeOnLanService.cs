@@ -32,15 +32,23 @@ public class WakeOnLanService : IWakeOnLanService, IDisposable
 
     private static byte[] CreateMagicPacket(PhysicalAddress macAddress)
     {
-        const int magicPacketSize = 6 + 16 * 6; 
-        
-        var magicPacket = new byte[magicPacketSize];
-        Array.Fill(magicPacket, (byte)0xFF, 0, 6);
+        const int magicPacketSize = 6 + 16 * 6;
         
         var macAddressBytes = macAddress.GetAddressBytes();
+        if (macAddressBytes.Length != 6)
+        {
+            throw new ArgumentException(
+                $"MAC address must be 6 bytes long, got {macAddressBytes.Length}", nameof(macAddress));
+        }
+
+        var magicPacket = new byte[magicPacketSize];
+        var magicPacketSpan = magicPacket.AsSpan();
+        magicPacketSpan[..6].Fill(0xFF);
         for (var i = 0; i < 16; i++)
         {
-            Buffer.BlockCopy(macAddressBytes, 0, magicPacket, 6 + i * 6, 6);
+            var start = i * 6 + 6;
+            var end = start + 6;
+            macAddressBytes.CopyTo(magicPacketSpan[start..end]);
         }
 
         return magicPacket;
