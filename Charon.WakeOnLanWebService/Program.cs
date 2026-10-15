@@ -11,10 +11,19 @@ var builder = WebApplication.CreateBuilder(args);
 
 var connectionString = builder.Configuration.GetConnectionString("SqliteConnection");
 
+var allowedOrigins = builder.Configuration.GetSection("Cors:AllowedOrigins").Get<string[]>() ?? [];
+
 var services = builder.Services;
 services.AddDbContextPool<AppDbContext>(options =>
     options.UseSqlite(connectionString));
 services.AddOpenApi();
+services.AddCors(options =>
+{
+    options.AddPolicy("Frontend", policy => policy
+        .WithOrigins(allowedOrigins)
+        .AllowAnyHeader()
+        .AllowAnyMethod());
+});
 services.AddScoped<IDeviceManagementService, DeviceManagementService>();
 services.AddSingleton<IWakeOnLanService, WakeOnLanService>();
 services.AddSingleton<IPingService, PingService>();
@@ -25,6 +34,8 @@ if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
 }
+
+app.UseCors("Frontend");
 
 var devicesMapGroup = app.MapGroup("/devices");
 devicesMapGroup.MapPost("/", async (
@@ -137,10 +148,12 @@ devicesMapGroup.MapPost("/{mac}/ping", async (
     
     if (device.IpAddress is null)
     {
-        return Results.NotFound(new ProblemDetails
+        return Results.Json(new PingResponse
         {
-            Title = "Device has no IP address",
-            Detail = $"Device with MAC address '{mac}' has no configured IP address",
+            Success = false,
+            Description = "IpIsNotSetForThisDevice",
+            RoundTripTime = TimeSpan.Zero,
+            RoundTripTimeMs = 0,
         });
     }
 
@@ -151,6 +164,7 @@ devicesMapGroup.MapPost("/{mac}/ping", async (
         Success = pingResult.Success,
         Description = pingResult.Description,
         RoundTripTime = pingResult.RoundTripTime,
+        RoundTripTimeMs = pingResult.RoundTripTime.Milliseconds,
     });
 });
 devicesMapGroup.MapDelete("/{mac}", async (

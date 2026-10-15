@@ -47,3 +47,9 @@ riderModule.iml
 ## OS
 .DS_Store
 Thumbs.db
+
+## Frontend (client/)
+client/node_modules/
+client/dist/
+client/.env.local
+client/.env.*.local

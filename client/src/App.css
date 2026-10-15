@@ -1,0 +1,52 @@
+.app-window {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 8px;
+}
+
+.table-panel {
+  height: 360px;
+  background: #fff;
+}
+
+.table-panel table {
+  width: 100%;
+}
+
+.table-panel td {
+  white-space: nowrap;
+}
+
+.status-bar-count {
+  flex: 0 0 auto;
+  min-width: 100px;
+}
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dialog {
+  min-width: 320px;
+}
+
+.dialog .field-row-stacked {
+  margin-bottom: 8px;
+}
+
+.dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 6px;
+  margin-top: 12px;
+}
