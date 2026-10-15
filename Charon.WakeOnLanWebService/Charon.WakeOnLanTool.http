@@ -1,0 +1,46 @@
+@Charon.WakeOnLanTool_HostAddress = http://localhost:5042
+@mac = 00-11-22-33-44-55
+
+### Add a new device
+POST {{Charon.WakeOnLanTool_HostAddress}}/devices
+Content-Type: application/json
+
+{
+  "macAddress": "{{mac}}",
+  "ipAddress": "192.168.1.50",
+  "title": "Home PC"
+}
+
+### List all devices
+GET {{Charon.WakeOnLanTool_HostAddress}}/devices
+Accept: application/json
+
+### Get a device by MAC address
+GET {{Charon.WakeOnLanTool_HostAddress}}/devices/{{mac}}
+Accept: application/json
+
+### Send a Wake-on-LAN magic packet to a device
+POST {{Charon.WakeOnLanTool_HostAddress}}/devices/{{mac}}/wake
+
+### Ping a device
+POST {{Charon.WakeOnLanTool_HostAddress}}/devices/{{mac}}/ping
+Accept: application/json
+
+### Rename a device
+PATCH {{Charon.WakeOnLanTool_HostAddress}}/devices/{{mac}}/title
+Content-Type: application/json
+
+{
+  "title": "Office PC"
+}
+
+### Update a device's IP address
+PATCH {{Charon.WakeOnLanTool_HostAddress}}/devices/{{mac}}/ip
+Content-Type: application/json
+
+{
+  "ipAddress": "192.168.1.51"
+}
+
+### Delete a device
+DELETE {{Charon.WakeOnLanTool_HostAddress}}/devices/{{mac}}
