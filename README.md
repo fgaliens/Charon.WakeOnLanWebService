@@ -15,6 +15,9 @@ pinged, and deleted through a REST API. A React frontend lives in
 - Rename a device or update its stored IP address
 - Delete a device
 
+![Device OFF](other/demo-images/dev-off.png)
+![Device ON](other/demo-images/dev-on.png)
+
 ## Tech stack
 
 - [.NET 10](https://dotnet.microsoft.com/) / ASP.NET Core Minimal APIs
