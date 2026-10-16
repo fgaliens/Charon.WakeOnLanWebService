@@ -15,8 +15,18 @@ pinged, and deleted through a REST API. A React frontend lives in
 - Rename a device or update its stored IP address
 - Delete a device
 
-![Device OFF](other/demo-images/dev-off.png)
-![Device ON](other/demo-images/dev-on.png)
+* **Adding a device:**
+  ![Screen showing how to add a new device](other/demo-images/add-dev.png)
+
+* **Devices list:**
+  ![Dashboard with the list of connected devices](other/demo-images/devices.png)
+
+* **Waking up a device:**
+  ![Status screen showing all devices active](other/demo-images/all-act-dev.png)
+
+* **Removing a device:**
+  ![Confirmation dialog for removing a device](other/demo-images/rm-device.png)
+
 
 ## Tech stack
 
