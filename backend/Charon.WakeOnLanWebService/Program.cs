@@ -70,7 +70,7 @@ devicesMapGroup.MapPost("/", async (
     {
         MacAddress = macAddress,
         IpAddress = ipAddress,
-        Title = request.Title,
+        Title = request.Title?.Trim(),
     }, cancellationToken);
 
     if (deviceAdded)
@@ -182,7 +182,7 @@ devicesMapGroup.MapPatch("/{mac}/title", async (
     IDeviceManagementService deviceService,
     CancellationToken cancellationToken) =>
 {
-    var updated = await deviceService.RenameDevice(mac, request.Title, cancellationToken);
+    var updated = await deviceService.RenameDevice(mac, request.Title?.Trim(), cancellationToken);
     return updated ? Results.NoContent() : Results.NotFound();
 });
 devicesMapGroup.MapPatch("/{mac}/ip", async (
